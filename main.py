@@ -1,31 +1,34 @@
 from shop import Shop, Item, Customer
 
 def main():
-    # Create some items
-    item1 = Item("Widget", 5, 10, 10)
-    item2 = Item("Gadget", 3, 6, 15)
+    print("Welcome to the shop!")
+    shop = Shop(input("What do you want to name your shop?: "), [], 100)
 
-    # Create a shop with initial inventory and cash
-    shop = Shop(inventory=[(item1, item1.stock), (item2, item2.stock)], cash=100)
+    while True:
+        print("What would you like to do?")
+        print("1. Restock items")
+        if shop.open:
+            print("2. Open for the day (Shop is currently open)")
+        print("2. Open for the day")
+        print("3. End the day")
+        print("4. Quit")
 
-    # Create some customers
-    customer1 = Customer(budget=20, wants=["Widget"])
-    customer2 = Customer(budget=5, wants=["Gadget"])
-    customer3 = Customer(budget=15, wants=["Widget", "Gadget"])
+        choice = input("Enter your choice: ")
 
-    # Open the shop for the day and serve customers
-    shop.open_for_day(customers=[customer1, customer2, customer3])
-
-    # Print the final state of the shop
-    print(f"Day: {shop.day}, Cash: {shop.cash}")
-    for item, quantity in shop.inventory:
-        print(f"Item: {item.name}, Stock: {quantity}")
-
-    # End the day with a rent deduction
-    print("Ending the day...")
-    print(f"Cash before rent: {shop.cash}")
-    shop.end_day(rent=10)
-    print(f"Cash after rent: {shop.cash}, Day: {shop.day}")
+        if choice == "1":
+            # Implement restock functionality
+            pass
+        elif choice == "2":
+            # Implement open for the day functionality
+            pass
+        elif choice == "3":
+            # Implement end the day functionality
+            pass
+        elif choice == "4":
+            print("Thanks for playing!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()

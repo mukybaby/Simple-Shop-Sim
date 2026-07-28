@@ -4,6 +4,7 @@ class Item:
         self.cost_price = cost_price
         self.sell_price = sell_price
         self.stock = stock
+        self.open = False
 
 class Customer:
     def __init__(self, budget: int, wants: list[str]):
@@ -11,10 +12,12 @@ class Customer:
         self.wants = wants
 
 class Shop:
-    def __init__(self, inventory: list[tuple[Item, int]], cash: int):
+    def __init__(self, name: str, inventory: list[tuple[Item, int]], cash: int):
+        self.name = name
         self.inventory = inventory
         self.cash = cash
         self.day = 0
+        self.open = False
 
     def restock(self, item: Item, quantity: int):
         # Add stock for an item or create a new inventory entry if needed.
@@ -27,6 +30,7 @@ class Shop:
 
     def open_for_day(self, customers: list[Customer]):
         # Serve customers by selling matching items if they can afford them.
+        self.open = True
         for customer in customers:
             for item, quantity in self.inventory:
                 if item.name in customer.wants and customer.budget >= item.sell_price and quantity > 0:
@@ -38,5 +42,6 @@ class Shop:
 
     def end_day(self, rent: int):
         # Deduct daily rent and advance the shop to the next day.
+        self.open = False
         self.cash -= rent
         self.day += 1
