@@ -27,12 +27,14 @@ class Shop:
              for item_check in self.inventory:
                   if item_check == item:   
                     item_check.stock += quantity
+
         else:
             print(f'"{item.name}" is not in invotory')
 
     def open_for_day(self, customers: list[Customer]):
         # Serve customers by selling matching items if they can afford them.
         self.open = True
+
         for customer in customers:
             self.customers_in_store.append(customer)
 
@@ -47,7 +49,9 @@ class Shop:
 def make_customers(day: int, shop: Shop, customers_name: list[str]) -> list[Customer]:
 	total_customers = day * 3
 	customers: list[Customer] = []
+     
 	while len(customers) != total_customers:
 		new_customer = Customer(random.choice(customers_name), random.randint(17, 286), random.choice(shop.inventory))
 		customers.append(new_customer)
+          
 	return customers
