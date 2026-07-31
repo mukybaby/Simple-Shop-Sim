@@ -1,9 +1,9 @@
 import random
 
 class Item:
-    def __init__(self, name: str, sell_price: int, stock: int):
+    def __init__(self, name: str, price: int, stock: int):
         self.name = name
-        self.sell_price = sell_price
+        self.price = price
         self.stock = stock
 
 class Customer:
@@ -15,7 +15,7 @@ class Customer:
 class Shop:
     def __init__(self, name: str, inventory: list[tuple[Item, int]], cash: int):
         self.name = name
-        self.inventory: list[tuple[Item, int]] = inventory
+        self.inventory: list[Item] = inventory
         self.cash = cash
         self.day = 1
         self.open = False
@@ -23,11 +23,12 @@ class Shop:
 
     def restock(self, item: Item, quantity: int):
         # Add stock for an item or create a new inventory entry if needed.
-        for index, (inv_item, inv_quantity) in enumerate(self.inventory):
-            if inv_item.name == item.name:
-                self.inventory[index] = (inv_item, min(inv_quantity + quantity, 20))
-                return
-        self.inventory.append((item, min(quantity, 20)))
+        if item in self.inventory:
+             for item_check in self.inventory:
+                  if item_check == item:   
+                    item_check.stock += quantity
+        else:
+            print(f'"{item.name}" is not in invotory')
 
     def open_for_day(self, customers: list[Customer]):
         # Serve customers by selling matching items if they can afford them.
