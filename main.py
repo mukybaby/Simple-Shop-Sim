@@ -1,4 +1,5 @@
 import json
+import random
 from res.shop import Shop, Item, Customer, make_customers
 
 
@@ -28,6 +29,9 @@ def main():
             print("2. Open for the day")
             print("3. Quit\n")
 
+        if len(shop.customers_in_store) <= 0 and shop.open:
+            print("There are no more customers for the day.")
+
         choice = input("Enter your choice: ")
         print()
 
@@ -51,8 +55,30 @@ def main():
 
             case "2":
                 if shop.open:
-                    # Serve Customer
-                    pass
+                    if len(shop.customers_in_store) > 0:
+                        customer = shop.customers_in_store.pop(0)
+                        print(f"{customer.name} wants to buy {customer.wants.name} for {customer.wants.price}.")
+                        print("Would you like to bargin with them? (Y/n): ")
+
+                        if bargin_choice := input().lower() == "y":
+                            chance = random.uniform(0, 100)
+                            if customer.bargin_with(chance):
+                                print(f"Successfully bargained with {customer.name}! Increased the price by 10%.")
+                                customer.wants.price += customer.wants.price * 0.9  # Apply a 10% markup to the price
+                            else:
+                                print(f"Failed to bargain with {customer.name}. Decreased the price by 10%.")
+                                customer.wants.price -= customer.wants.price * 0.1  # Apply a 10% discount to the price
+                                customer.buy(customer.wants, shop)
+                        elif bargin_choice == "n":
+                            customer.buy(customer.wants, shop)
+
+                        else:
+                            print("Invalid choice. Please try again.")
+                            
+
+
+                    else:
+                        print("There are no more customers for the day.")
 
                 else:
                     shop.open_for_day(make_customers(shop.day, shop, customer_names))
