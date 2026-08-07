@@ -42,6 +42,7 @@ class Shop:
         self.day = 1
         self.open = False
         self.customers_in_store: list[Customer] = []
+        self.loan: bool = True
 
     def restock(self, item: Item, quantity: int):
         # Add stock for an item or create a new inventory entry if needed.

@@ -17,6 +17,15 @@ def main():
             shop.inventory.append(Item(item[0], item[1], 5))
 
     while True:
+        if shop.loan:
+            print(f"The shop has gone negative. The bank has given you a loan of {abs(shop.cash) + 100}. This is the only time the bank will give you a loan.\n")
+            shop.cash += abs(shop.cash) + 100
+            shop.loan = False
+        elif shop.loan == False and shop.cash < 0:
+            print(f"The shop has gone negative. The bank has already given you a loan. We are sorry but you have lost the game.\n")
+            break
+
+        print(f"Day {shop.day} - Cash: {shop.cash}\n")
         print("What would you like to do?\n")
         print("1. Restock items")
 
@@ -43,15 +52,15 @@ def main():
 
                 print()
 
-                choice = input("Choose an item by name or number: ")
+                item_choice = shop.inventory[int(input("Choose an item by name or number: ")) - 1]
                 stock_choice = int(input("How much do you want to restock?: "))
 
-                if stock_choice > shop.cash:
+                if stock_choice * item_choice.price > shop.cash:
                     print("You dont have enough cash")
 
                 else:
-                    shop.cash -= stock_choice * item.price
-                    shop.restock(shop.inventory[int(choice) - 1], stock_choice)
+                    shop.cash -= stock_choice * item_choice.price
+                    shop.restock(item_choice, stock_choice)
 
             case "2":
                 if shop.open:
