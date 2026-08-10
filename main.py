@@ -17,7 +17,7 @@ def main():
             shop.inventory.append(Item(item[0], item[1], 5))
 
     while True:
-        if shop.loan:
+        if shop.loan and shop.cash < 0:
             print(f"The shop has gone negative. The bank has given you a loan of {abs(shop.cash) + 100}. This is the only time the bank will give you a loan.\n")
             shop.cash += abs(shop.cash) + 100
             shop.loan = False
